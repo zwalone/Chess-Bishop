@@ -11,7 +11,7 @@ public class MovePlate : MonoBehaviour
     int matrixX;
     int matrixY;
 
-    bool attack = false;
+    public bool attack = false;
 
     private void Start()
     {
@@ -28,6 +28,11 @@ public class MovePlate : MonoBehaviour
         if (attack)
         {
             GameObject cp = controller.GetComponent<Game>().GetPosition(matrixX, matrixY);
+            Game game = controller.GetComponent<Game>();
+
+            if (game.NumberOfFigure() == 0) game.Winner(game.GetCurrentPlayer());
+            controller.GetComponent<Game>().NumberOfFigure();
+
             Destroy(cp);
         }
 
@@ -40,6 +45,14 @@ public class MovePlate : MonoBehaviour
         controller.GetComponent<Game>().SetPosition(reference);
 
         //reference.GetComponent<Chessman>().DestroyMovePlates();
+        //Update the matrix
+        controller.GetComponent<Game>().SetPosition(reference);
+
+        //Switch Current Player
+        controller.GetComponent<Game>().NextTurn();
+
+        //Destroy the move plates including self
+        reference.GetComponent<Chessman>().DestroyMovePlates();
     }
 
     public void SetCords(int x, int y)
@@ -57,4 +70,5 @@ public class MovePlate : MonoBehaviour
     {
         return reference;
     }
+
 }
