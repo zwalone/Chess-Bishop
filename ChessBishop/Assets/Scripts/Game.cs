@@ -116,12 +116,10 @@ public class Game : MonoBehaviour
     {
         return currentPlayer;
     }
-
     public bool IsGameOver()
     {
         return gameOver;
     }
-
     public void NextTurn()
     {
         if (currentPlayer == "white")
@@ -133,25 +131,24 @@ public class Game : MonoBehaviour
             currentPlayer = "white";
         }
     }
-
     public void Update()
     {
         if (gameOver == true && Input.GetMouseButtonDown(0))
         {
             gameOver = false;
-
-            //Using UnityEngine.SceneManagement is needed here
-            SceneManager.LoadScene("Game"); //Restarts the game by loading the scene over again
+            SceneManager.LoadScene("Game");
         }
     }
 
     public void Winner(string playerWinner)
     {
         gameOver = true;
+        string winText;
+        if (playerWinner == "black") winText = "! Czarne Wygrały !";
+        else winText = "! Białe Wygrały !";
 
-        //Using UnityEngine.UI is needed here
         GameObject.FindGameObjectWithTag("WinnerText").GetComponent<Text>().enabled = true;
-        GameObject.FindGameObjectWithTag("WinnerText").GetComponent<Text>().text = playerWinner + " is the winner";
+        GameObject.FindGameObjectWithTag("WinnerText").GetComponent<Text>().text = winText;
 
         GameObject.FindGameObjectWithTag("RestartText").GetComponent<Text>().enabled = true;
     }

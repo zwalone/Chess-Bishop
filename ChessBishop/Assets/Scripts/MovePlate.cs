@@ -24,35 +24,32 @@ public class MovePlate : MonoBehaviour
     public void OnMouseUp()
     {
         controller = GameObject.FindGameObjectWithTag("GameController");
+        var game = controller.GetComponent<Game>();
+        var cm = reference.GetComponent<Chessman>();
 
         if (attack)
         {
             GameObject cp = controller.GetComponent<Game>().GetPosition(matrixX, matrixY);
-            Game game = controller.GetComponent<Game>();
 
-            if (game.NumberOfFigure() == 0) game.Winner(game.GetCurrentPlayer());
-            controller.GetComponent<Game>().NumberOfFigure();
+            if (game.NumberOfFigure() == 0) 
+                game.Winner(game.GetCurrentPlayer());
 
             Destroy(cp);
         }
 
-        controller.GetComponent<Game>().SetPositionEmpty(reference.GetComponent<Chessman>().GetXBoard(), reference.GetComponent<Chessman>().GetYBoard());
+        game.SetPositionEmpty(
+            reference.GetComponent<Chessman>().GetXBoard(), 
+            reference.GetComponent<Chessman>().GetYBoard()
+        );
 
-        reference.GetComponent<Chessman>().SetXBoard(matrixX);
-        reference.GetComponent<Chessman>().SetYBoard(matrixY);
-        reference.GetComponent<Chessman>().SetCords();
+        cm.SetXBoard(matrixX);
+        cm.SetYBoard(matrixY);
+        cm.SetCords();
 
-        controller.GetComponent<Game>().SetPosition(reference);
-
-        //reference.GetComponent<Chessman>().DestroyMovePlates();
-        //Update the matrix
-        controller.GetComponent<Game>().SetPosition(reference);
-
-        //Switch Current Player
-        controller.GetComponent<Game>().NextTurn();
-
-        //Destroy the move plates including self
-        reference.GetComponent<Chessman>().DestroyMovePlates();
+        game.SetPosition(reference);
+        game.SetPosition(reference);
+        game.NextTurn();
+        cm.DestroyMovePlates();
     }
 
     public void SetCords(int x, int y)
