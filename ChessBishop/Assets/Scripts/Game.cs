@@ -17,45 +17,47 @@ public class Game : MonoBehaviour
 
     private bool gameOver = false;
 
+    #region 1. Set up board and figures
     void Start()
     {
+        //Initialize chess figures on board
         playerWhite = new GameObject[]
         {
             Create("white_knight", 0,0),
             Create("white_knight", 1,0),
-            //Create("white_knight", 2,0),
-            //Create("white_knight", 3,0),
-            //Create("white_knight", 4,0),
-            //Create("white_knight", 5,0),
-            //Create("white_knight", 6,0),
-            //Create("white_knight", 7,0),
-            //Create("white_knight", 0,1),
-            //Create("white_knight", 1,1),
-            //Create("white_knight", 2,1),
-            //Create("white_knight", 3,1),
-            //Create("white_knight", 4,1),
-            //Create("white_knight", 5,1),
-            //Create("white_knight", 6,1),
-            //Create("white_knight", 7,1),
+            Create("white_knight", 2,0),
+            Create("white_knight", 3,0),
+            Create("white_knight", 4,0),
+            Create("white_knight", 5,0),
+            Create("white_knight", 6,0),
+            Create("white_knight", 7,0),
+            Create("white_knight", 0,1),
+            Create("white_knight", 1,1),
+            Create("white_knight", 2,1),
+            Create("white_knight", 3,1),
+            Create("white_knight", 4,1),
+            Create("white_knight", 5,1),
+            Create("white_knight", 6,1),
+            Create("white_knight", 7,1),
         };
         playerBlack = new GameObject[]
         {
             Create("black_knight",0,6),
             Create("black_knight",1,6),
-            //Create("black_knight",2,6),
-            //Create("black_knight",3,6),
-            //Create("black_knight",4,6),
-            //Create("black_knight",5,6),
-            //Create("black_knight",6,6),
-            //Create("black_knight",7,6),
-            //Create("black_knight",0,7),
-            //Create("black_knight",1,7),
-            //Create("black_knight",2,7),
-            //Create("black_knight",3,7),
-            //Create("black_knight",4,7),
-            //Create("black_knight",5,7),
-            //Create("black_knight",6,7),
-            //Create("black_knight",7,7),
+            Create("black_knight",2,6),
+            Create("black_knight",3,6),
+            Create("black_knight",4,6),
+            Create("black_knight",5,6),
+            Create("black_knight",6,6),
+            Create("black_knight",7,6),
+            Create("black_knight",0,7),
+            Create("black_knight",1,7),
+            Create("black_knight",2,7),
+            Create("black_knight",3,7),
+            Create("black_knight",4,7),
+            Create("black_knight",5,7),
+            Create("black_knight",6,7),
+            Create("black_knight",7,7),
         };
 
         for(int i =0; i < playerBlack.Length; i++)
@@ -64,6 +66,39 @@ public class Game : MonoBehaviour
             SetPosition(playerWhite[i]);
         }
     }
+    //Create instane of a chess figure
+    public GameObject Create(string name, int x, int y)
+    {
+        GameObject obj = Instantiate(chesspiece, new Vector3(0, 0, -1), Quaternion.identity);
+        Chessman cm = obj.GetComponent<Chessman>();
+        cm.name = name;
+        cm.SetXBoard(x);
+        cm.SetYBoard(y);
+        cm.Activate();
+        return obj;
+    }
+    //Put figure into game board array
+    public void SetPosition(GameObject obj)
+    {
+        Chessman cm = obj.GetComponent<Chessman>();
+        positions[cm.GetXBoard(), cm.GetYBoard()] = obj;
+    }
+    #endregion
+
+    #region 2. Check if game is over and restart
+    public void Update()
+    {
+        if (gameOver == true && Input.GetMouseButtonDown(0))
+        {
+            gameOver = false;
+            SceneManager.LoadScene("Game");
+        }
+    }
+    #endregion
+
+    #region Other Methods
+
+    //Check number of figure of certain player
     public int NumberOfFigure() 
     {
         int counter = 0;
@@ -78,23 +113,6 @@ public class Game : MonoBehaviour
         }
 
         return counter-1;
-    }
-
-    public GameObject Create(string name , int x, int y)
-    {
-        GameObject obj = Instantiate(chesspiece, new Vector3(0, 0, -1), Quaternion.identity);
-        Chessman cm = obj.GetComponent<Chessman>();
-        cm.name = name;
-        cm.SetXBoard(x);
-        cm.SetYBoard(y);
-        cm.Activate();
-        return obj;
-    }
-
-    public void SetPosition(GameObject obj)
-    {
-        Chessman cm = obj.GetComponent<Chessman>();
-        positions[cm.GetXBoard(), cm.GetYBoard()] = obj;
     }
 
     public void SetPositionEmpty(int x, int y)
@@ -131,15 +149,7 @@ public class Game : MonoBehaviour
             currentPlayer = "white";
         }
     }
-    public void Update()
-    {
-        if (gameOver == true && Input.GetMouseButtonDown(0))
-        {
-            gameOver = false;
-            SceneManager.LoadScene("Game");
-        }
-    }
-
+    //End a game and find winner !
     public void Winner(string playerWinner)
     {
         gameOver = true;
@@ -153,5 +163,5 @@ public class Game : MonoBehaviour
         GameObject.FindGameObjectWithTag("RestartText").GetComponent<Text>().enabled = true;
     }
 
-
+    #endregion
 }

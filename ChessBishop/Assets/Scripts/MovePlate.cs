@@ -21,6 +21,7 @@ public class MovePlate : MonoBehaviour
         }
     }
 
+    //On palete click
     public void OnMouseUp()
     {
         controller = GameObject.FindGameObjectWithTag("GameController");
@@ -29,19 +30,23 @@ public class MovePlate : MonoBehaviour
 
         if (attack)
         {
+            //Finding figure of cords
             GameObject cp = controller.GetComponent<Game>().GetPosition(matrixX, matrixY);
 
+            //Check if game is over
             if (game.NumberOfFigure() == 0) 
                 game.Winner(game.GetCurrentPlayer());
 
+            //Destroy attacked figure
             Destroy(cp);
         }
 
+        //Setting previous position empty
         game.SetPositionEmpty(
             reference.GetComponent<Chessman>().GetXBoard(), 
             reference.GetComponent<Chessman>().GetYBoard()
         );
-
+        //Setting new position for active figure
         cm.SetXBoard(matrixX);
         cm.SetYBoard(matrixY);
         cm.SetCords();

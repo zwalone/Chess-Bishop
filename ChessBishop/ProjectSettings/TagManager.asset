@@ -16,7 +16,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Board
   - 
   - 
   - 
@@ -43,4 +43,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Board
+    uniqueID: 3995104421
+    locked: 0
+  - name: Figures
+    uniqueID: 4293113773
+    locked: 0
+  - name: UI
+    uniqueID: 1943016877
     locked: 0
